@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<h1>Live Chat Room</h1>
+<textarea id="chat-log" cols="100" rows="20"></textarea><br>
+<input id="chat-message-input" type="text" size="100"><br>
+<input id="chat-message-submit" type="button" value="Send">
+<input type="hidden" id="chat-user-group" name="user_group" value="{{user_group}}">
+<input type="hidden" id="chat-username" name="username" value="{{user.username}}">
+{{ room_name|json_script:"room-name" }}
+{% endblock %}

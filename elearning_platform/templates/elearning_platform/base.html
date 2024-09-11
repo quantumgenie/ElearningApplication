@@ -1,0 +1,15 @@
+{%include "./header.html"%}
+{%include "./title.html"%}
+{%load static%}
+
+<script src="{% static 'js/script.js' %}"></script>
+<div class="container-fluid">
+    {%block content%}No content rendered{%endblock%}
+</div>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            {%include "./footer.html"%}
+        </div>
+    </div>
+</div>

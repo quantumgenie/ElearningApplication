@@ -1,0 +1,93 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<!-- show user profile details -->
+<div class="col-5">
+    <h2>Profile of: {{ user_detail.username }} {{ user.username}} </h2>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-username">Username</span>
+        </div>
+        <input type="text" class="form-control" id="input-username" placeholder="{{ app_user.user.username }}"
+            aria-label="Username" aria-describedby="label-username" disabled>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-first_name">First Name</span>
+        </div>
+        <input type="text" class="form-control" id="input-first_name" placeholder="{{ app_user.user.first_name }}"
+            aria-label="First Name" aria-describedby="label-first_name" 
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-last_name">Last Name</span>
+        </div>
+        <input type="text" class="form-control" id="input-last_name" placeholder="{{ app_user.user.last_name }}"
+            aria-label="Last Name" aria-describedby="label-last_name" 
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-email">Email</span>
+        </div>
+        <input type="text" class="form-control" id="input-email" placeholder="{{ app_user.user.email }}"
+            aria-label="Email" aria-describedby="label-email"
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-date_of_birth">Date of Birth</span>
+        </div>
+        <input type="text" class="form-control" id="input-date_of_birth" placeholder="{{ app_user.date_of_birth }}"
+            aria-label="Date of Birth" aria-describedby="label-date_of_birth"
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-status">Status</span>
+        </div>
+        <input type="text" class="form-control" id="input-status" placeholder="{{ app_user.status }}"
+            aria-label="Status" aria-describedby="label-status"
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label-bio">Bio</span>
+        </div>
+        <input type="text" class="form-control" id="input-bio" placeholder="{{ app_user.bio }}" aria-label="Bio"
+            aria-describedby="label-bio"
+			{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+    </div>
+    <button type="button" class="btn btn-primary btn-md btn-block"
+        onclick="collectAndUpdateProfile('{{ app_user.user.first_name|escapejs }}', '{{ app_user.user.last_name|escapejs }}', '{{ app_user.user.email|escapejs }}', '{{ app_user.date_of_birth|escapejs }}', '{{ app_user.bio|escapejs }}', '{{ app_user.status|escapejs }}')"
+		{% if user and user_detail and user.username != user_detail.username %} disabled {% endif %}>
+		Update profile info
+	</button>
+    <br>
+    <!-- if user is student show enrolled courses else if user is teacher show created courses -->
+    {% if is_student %}
+    <h3>Enrolled Courses</h3>
+    <ul>
+        {% for course in enrolled_courses %}
+        <li>{{ course.title }} (Level: {{ course.level }})
+
+        </li>
+        {% empty %}
+        <li>No courses enrolled in yet.</li>
+        {% endfor %}
+    </ul>
+    {% elif is_teacher %}
+    <h3>Created Courses</h3>
+    <ul>
+        {% for course in created_courses %}
+        <li>{{ course.title }} (Level: {{ course.level }})</li>
+        {% empty %}
+        <li>No courses created yet.</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>This user is neither a student nor a teacher.</p>
+    {% endif %}
+</div>
+{% endblock %}

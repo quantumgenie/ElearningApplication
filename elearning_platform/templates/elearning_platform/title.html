@@ -1,0 +1,111 @@
+{% load bootstrap4%}
+{% load group_filters %}
+
+<nav class="navbar navbar-expand-md sticky-top flex-column">
+        <div class="w-100 d-flex">
+                <div class="navbar-header" id="header">
+                        <img id="logo" class="img-thumbnail"
+                                src="https://upload.wikimedia.org/wikipedia/commons/4/4f/E-learningE-E-Learning_Computer.jpg"
+                                alt="elearning logo" width="50px">
+                        <h1 id="app_title">Elearning</h1>
+                </div>
+        </div>
+        <div class="w-100 d-flex">
+                <ul class="nav nav-pills mr-auto" id="navigation">
+                        {% if user.is_authenticated %}
+                        {% if user|has_group:"student" %}
+                        <li class="nav-item">
+                                <a class="nav-link disabled">Hello, {{ user.first_name }} {{ user.last_name}}&nbsp;
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                        style="font-weight: bold;" href="/">Overview&nbsp; <span
+                                                class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/live_chat/' %}active{% endif %}"
+                                        href="{% url 'live_chat' %}">Live Chat&nbsp; <span
+                                                class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a
+                                        class="nav-link {% if request.path == '/more_courses/' %}active{% endif %}"
+                                        href="{% url 'more_courses' %}">More Courses&nbsp;
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item nav_notification">
+                                <div class="btn-group">
+                                        <a type="button" class="btn btn-success" href="{% url 'user_notifications' %}">
+                                                Notifications <span class="badge badge-light" id="notification-count">
+                                                        {{unread_notifications_count }}</span>
+                                                <span class="sr-only">Unread Notofications</span>
+                                        </a>
+                                </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"
+                                        style="text-decoration: underline;">Log Out&nbsp;
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        {% elif user|has_group:"teacher" %}
+                        <li class="nav-item">
+                                <a class="nav-link disabled">Hello, {{ user.first_name }} {{ user.last_name}}&nbsp;
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                        style="font-weight: bold;" href="/">Overview<span
+                                                class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/live_chat/' %}active{% endif %}"
+                                        href="{% url 'live_chat' %}">Live Chat&nbsp;
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a
+                                        class="nav-link {% if request.path == '/add_course/' %}active{% endif %}"
+                                        href="{% url 'add_course' %}">Add New Course
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a
+                                        class="nav-link {% if request.path == '/search_users/' %}active{% endif %}"
+                                        href="{% url 'search_users' %}">Search users
+                                        <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item nav_notification">
+                                <div class="btn-group">
+                                        <a type="button" class="btn btn-success" href="{% url 'user_notifications' %}">
+                                                Notifications <span class="badge badge-light" id="notification-count">
+                                                        {{unread_notifications_count }}</span>
+                                                <span class="sr-only">Unread Notofications</span>
+                                        </a>
+                                </div>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"
+                                        style="text-decoration: underline;">&nbsp;Log
+                                        Out&nbsp;<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                                <a class="nav-link disabled">Hello, {{ user.username }}&nbsp; <span
+                                                class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                        href="/">Home<span class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/admin/' %}active{% endif %}"
+                                        style="font-weight: bold;" href="../admin/">Admin Mode<span
+                                                class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="../logout/"
+                                        style="text-decoration: underline;">Log
+                                        Out&nbsp;<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% endif %}
+
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}"
+                                        aria-current="page" style="font-weight: bold;" href="/">Home<span
+                                                class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/register/' %}active{% endif %}"
+                                        href="../register/">Sign up<span class="sr-only">(current)</span></a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.path == '/login/' %}active{% endif %}"
+                                        href="../login/">Log in<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% endif %}
+                </ul>
+        </div>
+</nav>
+<br>
+<div id="notification-container"></div>

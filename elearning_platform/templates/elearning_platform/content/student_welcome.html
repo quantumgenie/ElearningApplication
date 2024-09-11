@@ -1,0 +1,84 @@
+<div class="row">
+    <!-- main content area -->
+    <div class="col-md-12">
+        <div class="row" style="margin-inline: 10px;">
+            <div class="col-2">
+                <img id="logo" class="img-thumbnail"
+                    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="avatar logo">
+            </div>
+            <div class="col-10">
+                <h6><strong>Name: </strong> {{ app_user.user.first_name }} {{ app_user.user.last_name }}</h6>
+                <h6><strong>Status: </strong>
+                    {% if app_user.status %}
+                    {{ app_user.status }}
+                    {% else %}
+                    No status yet
+                    {% endif%}
+                </h6>
+                <div class="row">
+                    <div class="col-4">
+                        <textarea id="new-status-input" cols="20" rows="1"></textarea>
+                    </div>
+                    <div class="col-6">
+                        <input id="new-status-submit" type="button" value="Update Status" onclick="updateUserStatus()">
+                    </div>
+                </div>
+                <a href="{% url 'user_profile' user.id %}"><strong>View profile</strong></a>
+            </div>
+        </div>
+        <br>
+        <h2>Enrolled Courses</h2>
+        {% if enrolled_courses %}
+        <ul>
+            {% for enrollment in enrolled_courses %}
+            <li id="enrolled_course-{{ enrollment.enrollment_id }}">
+                <div class="row">
+                    <h3 style="padding-inline: 10px;">{{ enrollment.course.title }}</h3>
+                    <button type="button" class="btn btn-outline-primary" style="margin-inline: 10px;" disabled>
+                        Level: {{ enrollment.course.level}}
+                    </button>
+                    {% if enrollment.blocked %}
+                    <button type="button" class="btn btn-warning" style="margin-inline: 10px;" disabled>
+                        You have been blocked from this course
+                    </button>
+                    {% else %}
+                    <a class="btn btn-warning" style="margin-inline: 10px;"
+                        onclick="unEnrollCourse({{ enrollment.enrollment_id }})">Un-Enroll</a>
+                    <a class="btn btn-primary" style="margin-inline: 10px;"
+                        href="/course/detail/{{enrollment.course.course_id}}">View</a>
+                    {% endif %}
+                </div>
+                <h5>- Creator: {{ enrollment.course.creator.first_name }} {{ enrollment.course.creator.last_name }}</h5>
+                <h5>- Last update: {{ enrollment.course.updated_at }}</h5>
+            </li>
+            <div id="new_enroll"></div>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You have not enrolled in any courses yet.</p>
+        {% endif %}
+        <h2>Other Courses</h2>
+        {% if not_enrolled_courses %}
+        <ul>
+            {% for course in not_enrolled_courses %}
+            <li id="not_enrolled_course-{{course.course_id}}">
+                <div class="row">
+                    <h3 style="padding-inline: 10px;">{{ course.title }}</h3>
+                    <button type="button" class="btn btn-outline-primary" style="margin-inline: 10px;" disabled>
+                        Level: {{ course.level}}
+                    </button>
+                    <a class="btn btn-success" style="margin-inline: 10px;"
+                        href="{% url 'course_enroll' course.course_id %}">Enroll</a>
+                    <a class="btn btn-primary" style="margin-inline: 10px;"
+                        href="/course/detail/{{course.course_id}}">View</a>
+                </div>
+                <h5>- Creator: {{ course.creator.first_name }} {{ course.creator.last_name }}</h5>
+                <h5>- Last update: {{ course.updated_at }}</h5>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No other courses have been created yet.</p>
+        {% endif %}
+    </div>
+</div>

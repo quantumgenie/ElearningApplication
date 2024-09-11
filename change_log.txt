@@ -1,0 +1,65 @@
+v.0.12
+ - wrote model_factories
+ - wrote test for ListNotificaitons
+ - changed search_user in SearchUsersView
+ - solved bug: deleting materials would not delete the physical file also
+- added APITestCase for all APIViews
+v.0.11
+ - sending course feedback, visualizing feedback
+ - view/edit own profile
+ - restrict editing profile (if authenticated user is not the profile user)
+ - creating status field for AppUser
+ - update user status added
+v.0.10 
+ - notification websocket added
+ - notification received by alert message
+ - notification count refresh when new notification added
+ - notification alert changed to in-page alert
+ - mark as read button working
+ - display read/unread messages separately and sorted
+v.0.9
+ - searching and viewing user profiles - added
+ - block / unblock student from course - added
+ - remove student from course - added
+ - show student they have been blocked
+v.0.8
+ - multi-user chat capabilities added
+ - user messages show the sender (student/teacher + username) 
+v.0.7
+ - enroll capabilities added
+ - unenroll capabilities added
+v.0.6
+ - adding / viewing materials to course
+ - rest api adding new material
+ - rest api for Delete material / course
+ - disabling delete for non-owners
+ - changing how course detail is shown for teacher/student
+v.0.5
+- added Custom Overview (student/teachear). Changed title, base, index. Added more html components
+- changed navbar to nav-pill to visualize what page the user is currently in
+- added demo links for : live_chat / more_courses / add_courses / search_students
+- added search bar 
+- added notifications button with drop-down
+
+v.0.4
+- implemented signals.py (to automatically send notifications)
+	added signals.py; changed apps.py
+- implementing authentication login/out
+- changed user to AppUser and extended on User (from Authentication)
+- added Register/Login pages
+- added check to see if user in authenticated on index page
+- added Teacher & Student groups  
+v.0.3
+- Media URL added in 'settings':
+- changed file_path to type FileField in models.py
+- added serializer.py
+
+v.0.2
+- Minor changes to Models
+- Addded Admin mode (admin changeme)
+- Inserted test entries in DB via admin mode
+
+v.0.1
+- Create basic app
+- Add Models
+- Migrate models to DB

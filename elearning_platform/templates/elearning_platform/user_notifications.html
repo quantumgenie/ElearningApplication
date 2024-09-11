@@ -1,0 +1,36 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<div>
+
+    <h3><strong>All Notifications&nbsp;</strong>
+        <button class="badge badge-primary" onclick="markNotificationsRead()">
+            Mark as read
+        </button>
+    </h3>
+    <br>
+    <!-- show unread notifications first, read notifications second -->
+    <h6>Unread notifications</h6>
+    {% if unread_notifications %}
+    <ul>
+        {% for notification in unread_notifications %}
+        <li id="unread-notification"><span class="badge badge-secondary" id="new-badge">New</span>&nbsp;
+            {{notification.message }}
+            [{{ notification.created_at}}]</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <ul>You have no unread notifications at the moment</ul>
+    {% endif %}
+    <h6>Read notifications</h6>
+    {% if read_notifications %}
+    <ul>
+        {% for notification in read_notifications %}
+        <li id="read-notification">{{ notification.message }} [{{ notification.created_at}}]</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <ul>You have no read notifications at the moment</ul>
+    {% endif %}
+</div>
+{% endblock %}

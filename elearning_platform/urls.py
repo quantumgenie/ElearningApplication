@@ -1,0 +1,50 @@
+from django.urls import path
+from . import views
+from . import api
+
+# URL paths we use to access app pages containing DB data
+
+urlpatterns = [
+    path('', views.ListCourses.as_view(), name='index'),
+    path('', views.index, name='index'),
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
+    path('live_chat/', views.live_chat, name='live_chat'),
+    path('live_chat/<str:room_name>/',
+         views.live_chat_room, name='live_chat_room'),
+    path('more_courses/', views.ListStudentMoreCourses.as_view(), name='more_courses'),
+    path('search_users/', views.SearchUsersView.as_view(), name='search_users'),
+    path('api/search_users/', api.UserSearchAPI.as_view(), name='api_search_users'),
+    path('user/profile/<int:pk>/',
+         views.UserDetail.as_view(), name='user_profile'),
+    path('api/user/profile/update/',
+         api.UpdateUserProfileAPI.as_view(), name='user_profile_update'),
+    path('api/user/status/update/',
+         api.UpdateUserStatusAPI.as_view(), name='user_status_update'),
+    path('course/detail/<int:pk>',
+         views.CourseDetail.as_view(), name='course_detail'),
+    path('course/edit/<int:pk>', views.CourseEdit.as_view(), name='edit'),
+    path('api/course/delete/<int:pk>/',
+         api.DeleteCourseAPI.as_view(), name='api_delete_course'),
+    path('material/upload/', views.upload_material, name='upload_material'),
+    path('api/material/delete/<int:pk>/',
+         api.DeleteMaterialAPI.as_view(), name='api_delete_material'),
+    path('add_course/', views.add_course_view, name='add_course'),
+    path('api/add_course/', api.AddCourseAPI.as_view(), name='api_add_course'),
+    path('course/enroll/<int:course_id>/',
+         views.EnrollToCourse.as_view(), name='course_enroll'),
+    path('api/course/un-enroll/<int:pk>/',
+         api.UnEnrollCourseAPI.as_view(), name='api_delete_enrollment'),
+    path('api/course/student/remove/<int:pk>/',
+         api.RemoveStudentFromCourseAPI.as_view(), name='api_remove_student'),
+    path('api/course/student/block/<int:enrollment_id>/',
+         api.BlockStudentFromCourseAPI.as_view(), name='api_block_student'),
+    path('api/course/send_feedback/',
+         api.SendCourseFeedbackAPI.as_view(), name='api_send_course_feedback'),
+    path('user/notifications/', views.ListNotifications.as_view(),
+         name='user_notifications'),
+    path('api/user/mark_notifications_as_read/', api.MarkNotificationsRead.as_view(),
+         name='user_notifications_read'),
+
+]

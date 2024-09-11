@@ -1,0 +1,14 @@
+{% extends "./base.html" %}
+{% load group_filters %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if user|has_group:"student" %}
+{% include "./content/student_welcome.html" %}
+{% elif user|has_group:"teacher" %}
+{% include "./content/teacher_welcome.html" %}
+{% endif %}
+{% else %}
+{% include "./content/generic_welcome.html" %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "../base.html" %}
+{% block content %}
+<h2>Enroll in {{ course.title }}</h2>
+<p>Are you sure you want to enroll in this course?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, enroll me</button>
+    <a href="{% url 'course_detail' course.course_id %}">Cancel</a>
+</form>
+{% endblock %}

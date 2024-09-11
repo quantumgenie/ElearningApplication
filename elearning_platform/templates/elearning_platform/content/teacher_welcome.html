@@ -1,0 +1,75 @@
+<div class="row">
+    <!-- main content area -->
+    <div class="col-md-12">
+        <div class="row" style="margin-inline: 10px;">
+            <div class="col-2">
+                <img id="logo" class="img-thumbnail"
+                    src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="avatar logo">
+            </div>
+            <div class="col-10">
+                <h6><strong>Name: </strong> {{ app_user.user.first_name }} {{ app_user.user.last_name }}</h6>
+                <h6><strong>Status: </strong>
+                    {% if app_user.status %}
+                    {{ app_user.status }}
+                    {% else %}
+                    No status yet
+                    {% endif%}
+                </h6>
+                <div class="row">
+                    <div class="col-4">
+                        <textarea id="new-status-input" cols="20" rows="1"></textarea>
+                    </div>
+                    <div class="col-6">
+                        <input id="new-status-submit" type="button" value="Update Status" onclick="updateUserStatus()">
+                    </div>
+                </div>
+                <a href="{% url 'user_profile' user.id %}"><strong>View profile</strong></a>
+            </div>
+        </div>
+        <br>
+        <h2>Created Courses</h2>
+        {% if created_courses %}
+        <ul>
+            {% for course in created_courses %}
+            <li id="course-{{ course.course_id}}">
+                <div class="row">
+                    <h3 style="padding-inline: 10px;">{{ course.title }}</h3>
+                    <button type="button" class="btn btn-outline-primary" style="margin-inline: 10px;" disabled>
+                        Level: {{ course.level}}
+                    </button>
+                    <a class="btn btn-warning" style="margin-inline: 10px;"
+                        href="/course/edit/{{course.course_id}}">Edit</a>
+                    <a class="btn btn-success" style="margin-inline: 10px;"
+                        href="/course/detail/{{course.course_id}}">View</a>
+                </div>
+                <a class="btn btn-danger" style="margin-inline: 10px; margin-bottom: 10px;"
+                    onclick="deleteCourse({{ course.course_id }})">Delete</a>
+                <h5>- Creator: {{ course.creator.first_name }} {{ course.creator.last_name }}</h5>
+                <h5>- Last update: {{ course.updated_at }}</h5>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>You have no personal courses created yet.</p>
+        {% endif %}
+        <h2>Other Courses</h2>
+        {% if other_teachers_courses %}
+        <ul>
+            {% for course in other_teachers_courses %}
+            <li>
+                <div class="row">
+                    <h3 style="padding-inline: 10px;">{{ course.title }}</h3>
+                    <a class="btn btn-primary" style="margin-inline: 10px;"
+                        href="/course/detail/{{course.course_id}}">View</a>
+                </div>
+
+                <h5>- Creator: {{ course.creator.first_name }} {{ course.creator.last_name }}</h5>
+                <h5>- Last update: {{ course.updated_at }}</h5>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No other courses have been created yet.</p>
+        {% endif %}
+    </div>
+</div>

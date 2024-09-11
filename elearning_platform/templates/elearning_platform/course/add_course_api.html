@@ -1,0 +1,33 @@
+{% extends "../base.html" %}
+
+{% block content %}
+<h1>Add Course</h1>
+<form id="courseForm" method="post">
+    {% csrf_token %}
+    <label for="title">Course Title:</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="level">Level:</label>
+    <select id="level" name="level" required>
+        <option value="L4">Level 4</option>
+        <option value="L5">Level 5</option>
+        <option value="L6">Level 6</option>
+    </select><br><br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea><br><br>
+
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date"><br><br>
+
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date"><br><br>
+    <button type="submit">Add course</button>
+</form>
+<br />
+<div id="message"></div>
+<script>
+    // event listener that runs the AJAX request for the API POST endpoint
+    document.getElementById("courseForm").addEventListener("submit", submitCourseForm);
+</script>
+{% endblock %}

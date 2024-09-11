@@ -1,0 +1,24 @@
+{% extends "./base.html" %}
+
+{% block content %}
+<h1>More Courses</h1>
+{% if courses %}
+<ul>
+    {% for course in courses %}
+    <li>
+        <div class="row">
+            <h3 style="padding-inline: 10px;">{{ course.title }}</h3>
+            <button type="button" class="btn btn-outline-primary" style="margin-inline: 10px;" disabled>
+                Level: {{ course.level}}
+            </button>
+            <button type="button" class="btn btn-success" style="margin-inline: 10px;">Enroll</button>
+            <button type="button" class="btn btn-primary" style="margin-inline: 10px;">View</button>
+        </div>
+        <h5>- Last update: {{ course.updated_at }}</h5>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No other courses have been created yet.</p>
+{% endif %}
+{% endblock %}

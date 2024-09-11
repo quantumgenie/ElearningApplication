@@ -1,0 +1,126 @@
+{% extends "../base.html" %}
+{% load group_filters %}
+{% block content %}
+<div style="padding: 20px;">
+    <!-- Course details area -->
+    <div>
+        <h2>{{ course.title }}</h2>
+        <h5>Start date : {{ course.start_date }}</h5>
+        <h5>End date : {{ course.end_date }}</h5>
+    </div>
+    <br />
+    <div>
+        <h4>Level: {{ course.level }}</h4>
+        <h4>Creator: {{ creator_name }}</h4>
+    </div>
+    <br />
+    <div>
+        <h4>Description</h4>
+        <h6>{{ course.description }}</h6>
+    </div>
+    <br />
+    <!-- Upload materials area -->
+    <div>
+        <h4>Materials</h4>
+        <h5> Uploaded materials</h5>
+        <ul>
+            {% for material in materials %}
+            <li style="padding-left: 10px;" id="material-{{ material.material_id }}">
+                <div class="row">
+                    <a href="{{ material.material_path.url }}">{{ material.material_name }}</a>
+                    <p>
+                        (Uploaded by {{ material.creator.first_name }} {{ material.creator.last_name }} on
+                        {{material.added_at}})
+                    </p>
+                    {% if user == material.creator %}
+                    <a class="btn btn-outline-danger btn-sm" style="margin-inline: 10px; margin-bottom: 10px;"
+                        onclick="deleteMaterial({{ material.material_id }})">Delete</a>
+                    {% else %}
+                    <a class="btn btn-outline-secondary btn-sm disabled"
+                        style="margin-inline: 10px; margin-bottom: 10px;">Delete</a>
+                    {% endif %}
+                </div>
+
+            </li>
+            {% empty %}
+            <li>No materials have been uploaded yet.</li>
+            {% endfor %}
+        </ul>
+        {% if user|has_group:"teacher" %}
+        <br />
+        <h5>Add new material</h5>
+        <form action="{% url 'upload_material' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="course_id" name="course_id" value="{{ course.course_id }}">
+            <input type="file" id="myfile" name="myfile"><br><br>
+            <input type="submit" value="Upload Material">
+        </form>
+        <div id="response-message"></div>
+        <br />
+        {% endif %}
+    </div>
+    <br />
+    <!-- Enrollments area -->
+    <div>
+        <h4>Students Enrolled</h4>
+        <ul>
+            {% for enrollment in enrollments %}
+            <li id="enrollment-{{ enrollment.enrollment_id }}">
+                <div class="row" style="margin-inline: 10px;">
+                    <span>{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}</span>
+                    {% if user.id == course.creator.id %}
+                    <button class="btn btn-outline-danger btn-sm" style="margin-inline: 10px;"
+                        onclick="removeStudent({{ enrollment.enrollment_id }})">Remove</button>
+                    <button class="btn btn-outline-warning btn-sm" style="margin-inline: 10px;"
+                        id="button-enrollment-{{ enrollment.enrollment_id }}" onclick="blockStudent({{ enrollment.enrollment_id }}, 
+                        {{ enrollment.blocked|yesno:" true,false"}})">
+                        {% if enrollment.blocked %} Un-Block
+                        {% else%} Block
+                        {% endif %}
+                    </button>
+                    {% endif %}
+                </div>
+            </li>
+            {% empty %}
+            <li>No students enrolled yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- Feedback area -->
+    <div>
+        <h4>Feedback</h4>
+        <ul>
+            {% if feedbacks %}
+            {% if user|has_group:"teacher" %}
+            {% for feedback in feedbacks %}
+            <div class="row">
+                <span><strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }} : </strong>
+                    {{ feedback.message }}</span>
+            </div>
+            {% endfor %}
+            {% elif user|has_group:"student" %}
+            {% for feedback in feedbacks %}
+            {% if feedback.user == user %}
+            <div class="row">
+                <span><strong>{{ feedback.user.first_name }} {{ feedback.user.last_name }} : </strong>
+                    {{ feedback.message }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% else %}
+            <div class="row">
+                <h6>There are no feedback messages</h6>
+            </div>
+            {% endif %}
+        </ul>
+        {% if is_enrolled %}
+        <br>
+        <h5>Add new feedback</h5>
+        <input id="feedback-input" type="text" size="100"><br><br>
+        <input id="feedback-submit" type="button" value="Send feedback"
+            onclick="sendCourseFeedback({{ course.course_id }})">
+        {%endif%}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: Helvetica;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+#app_title {
+    display: inline;
+    vertical-align: middle;
+}
+
+#header {
+    vertical-align: middle;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+#navigation {
+    width: 100%;
+    background-color: #d5e1f7;
+    padding: 20px;
+}
+
+.navbar {
+    padding: 0px;
+}
+
+.nav_search,
+.nav_notification {
+    padding-inline: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.auth_button {
+    color: white;
+}
+
+/* student search button */
+form.student_search input[type=text] {
+    background: #f1f1f1;
+    width: 80%;
+    float: left;
+    border: 1px solid grey;
+    padding: 10px;
+    font-size: 17px;
+}
+
+form.student_search button {
+    background: #2196F3;
+    color: white;
+    width: 20%;
+    float: left;
+    border: 1px solid grey;
+    border-left: none;
+    padding: 10px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+form.student_search button:hover {
+    background: #0b7dda;
+}
+
+form.student_search::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#footer {
+    width: 100%;
+    padding-left: 10px;
+    float: left;
+}
